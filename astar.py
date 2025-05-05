@@ -8,10 +8,9 @@ def reconstruct_path(came_from, current):
     return path[::-1]
 
 def astar(graph, start, goal, heuristic):
-    open_set = [(0, start)]
-    g_score = {start: 0}
-    f_score = {start: heuristic(start, goal)}
+    open_set = [(heuristic(start, goal), start)]
     came_from = {}
+    g_score = {start: 0}
     closed_set = set()
 
     while open_set:
@@ -30,8 +29,8 @@ def astar(graph, start, goal, heuristic):
             if neighbor not in g_score or tentative_g < g_score[neighbor]:
                 came_from[neighbor] = current
                 g_score[neighbor] = tentative_g
-                f_score[neighbor] = tentative_g + heuristic(neighbor, goal)
-                heapq.heappush(open_set, (f_score[neighbor], neighbor))
+                f_score = tentative_g + heuristic(neighbor, goal)
+                heapq.heappush(open_set, (f_score, neighbor))
 
     return None, float('inf')
 

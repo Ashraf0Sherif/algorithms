@@ -1,15 +1,22 @@
 def activity_selection(start, finish):
-    n = len(start)
-    selected = [0]
+    # Pair each activity's start and finish time with its original index
+    activities = list(enumerate(zip(start, finish)))
     
-    for i in range(1, n):
-        if start[i] >= finish[selected[-1]]:
-            selected.append(i)
+    # Sort activities by finish time
+    activities.sort(key=lambda x: x[1][1])
     
+    selected = []
+    last_finish_time = 0
+
+    for index, (s, f) in activities:
+        if s >= last_finish_time:
+            selected.append(index)
+            last_finish_time = f
+
     return selected
 
 if __name__ == "__main__":
-    start = [1, 3, 0, 5, 8, 5]
-    finish = [2, 4, 6, 7, 9, 9]
+    start = [4, 0, 1, 1, 3]
+    finish = [6, 2, 3, 6, 4]
     selected_activities = activity_selection(start, finish)
     print("Selected activities:", selected_activities)
